@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {storage, database} from '../utils/firebase';
+import {connect } from 'react-redux'
 
 
-const Form = () => {
+const Form = (props) => {
 
   const [petPhoto,setPetPhoto] = useState('');
 
@@ -21,10 +22,10 @@ const Form = () => {
       'gender':form.get('gender'),
       'name':form.get('name'),
       'photo': petPhoto,
-      'profilePic':'',
+      'profilePic':props.user.photoURL,
       'type':form.get('type'),
-      'userContact':'',
-      'userName':''
+      'userContact':props.user.email,
+      'userName':props.user.displayName
     }
 
     database.ref('pets').push(data)
@@ -91,4 +92,11 @@ const Form = () => {
   </div>
 )};
 
-export default Form;
+
+const mapStateToProps = state => {
+  return {
+    user:state.user
+  }
+}
+
+export default connect(mapStateToProps)(Form);

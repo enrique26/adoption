@@ -1,10 +1,22 @@
 import React from 'react'
 import Form from './Form'
 import {connect} from 'react-redux'
-import {setUser} from '../actions'
+import {auth} from '../utils/firebase'
+import {setUser, setLogin} from '../actions'
 
 const Dashboard = (props) => {
-  console.log(props)
+
+  const logoutfacebook = () => {
+    auth().signOut()
+    .then( () => {
+      console.log("sesion cerrada")
+      props.setLogin(false)
+      props.setUser({})
+      props.history.push("/")
+    })
+  }
+
+
   return (
     <div className="Dashboard">
       <div className="Dashboard-container">
@@ -13,14 +25,18 @@ const Dashboard = (props) => {
             <Form />
           </div>
           <div className="Dashboard-profile">
-            <h2>perfilt</h2>
+            <h2>perfil</h2>
               <div className="Dashboard-profile-info">
-                <img src={props.user.photoURL } alt={props.user.displayName}></img>
-                <span>nombre</span>
-                <h4>{props.user.displayName}</h4>
-                <span>correo:</span>
-                <h4>{props.user.email}</h4>
-                <button>Cerrar sesión</button>
+                <div>
+                  <img src={ props.user != null ? props.user.photoURL:"" } alt={props.user != null ? props.user.displayName:""}></img>
+                  <span>nombre</span>
+                  <h4>{props.user != null ? props.user.displayName:""}</h4>
+                  <span>correo:</span>
+                  <h4>{props.user != null ? props.user.email:""}</h4>
+                    <button onClick={()=>{logoutfacebook()}}>
+                      <span>cerrar sesion</span>
+                    </button>
+                </div>
               </div>
           </div>
         </div>
@@ -36,6 +52,7 @@ const maptStateToProps = (state) =>  {
 }
 
 const mapDispatchToProps = {
-  setUser
+  setUser,
+  setLogin
 }
 export default connect(maptStateToProps,mapDispatchToProps)(Dashboard)

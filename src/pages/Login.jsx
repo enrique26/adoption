@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 
 import {auth , provider } from '../utils/firebase'
 
-import { setUser } from '../actions/'
+import { setUser, setLogin } from '../actions/'
 
 const  Login = (props) => {
 
@@ -13,18 +13,13 @@ const  Login = (props) => {
      .then( ({user}) => {
        console.log(user)
        props.setUser(user);
+       props.setLogin(true);
        props.history.push("/panel")
      });
 
   }
 
-  const logoutfacebook = () => {
-    auth().signOut()
-    .then( () => {
-      console.log("sesion cerrada")
-      props.history.push("/")
-    })
-  }
+  
 
   return (
     <div className="Login">
@@ -37,16 +32,15 @@ const  Login = (props) => {
             <i className="fab fa-facebook-square" />
             <span> Iniciar sesión con facebook</span>
           </button>
-          <button onClick={()=>{logoutfacebook()}}>
-            <span>cerrar sesion</span>
-          </button>
+
         </div>
       </div>
     </div>
   )
 }
 const mapDispatchToProps = {
-  setUser
+  setUser,
+  setLogin
 }
 
 export default connect(null,mapDispatchToProps)(Login)

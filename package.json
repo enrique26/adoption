@@ -25,7 +25,8 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -33,6 +34,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "classnames": "^2.2.6",
     "css-loader": "^3.2.0",
     "dotenv-webpack": "^1.7.0",
     "html-loader": "^0.5.5",

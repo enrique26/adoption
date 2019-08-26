@@ -1,23 +1,52 @@
-import React from 'react';
-import {Link } from 'react-router-dom'
+import React,{useState} from 'react';
+import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 import Nav from '../components/Nav'
-const Header = () => (
-  <div className="Header">
-    <div className="Header-container">
-      <div className="Header-content">
-        <div className="Header-logo">
-          <Link to={"/"}>
-            <img src="" alt="imagenlogo "></img>
-          </Link>
-          <h1>patitas</h1>
-        </div>
-        <div className="Header-nav">
-          <Nav/>
+import Modal from '../components/Modal';
+import Form from '../components/Form'
+import Login from '../pages/Login'
+
+const Header = (props) => {
+  const [modal,setModal] = useState(false);
+
+  const showModal=()=>{
+    setModal(!modal)
+  }
+
+  return(
+    <div className="Header">
+      <div className="Header-container">
+        <div className="Header-content">
+          <div className="Header-logo">
+            <Link to={"/"}>
+              <img src="" alt="imagenlogo "></img>
+            </Link>
+            <h1>patitas</h1>
+          </div>
+          <div className="Header-nav">
+            <Nav showModal={showModal}/>
+          </div>
         </div>
       </div>
+      <Modal show={modal} close={showModal}>
+        {
+          props.login ?
+          <Form></Form>
+          :
+          <div className="Modal-login">
+            <Login></Login>
+          </div>
+        }
+      </Modal>
     </div>
-  </div>
 
-);
+  )
+};
 
-export default Header;
+const mapStateToProps = state =>{
+  return {
+    login:state.login
+  }
+}
+
+export default connect(mapStateToProps)(Header);
